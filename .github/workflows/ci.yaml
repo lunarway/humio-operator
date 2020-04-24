@@ -30,3 +30,20 @@ jobs:
       uses: ./.github/action/operator-sdk
       with:
         args: operator-sdk build humio/humio-operator:${{ github.sha }}
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        go: ['1.13', '1.14']
+    steps:
+      - uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go }}
+      - uses: actions/checkout@v2
+      - run: make cover
+      - name: Send coverage
+        uses: shogo82148/actions-goveralls@v1
+        with:
+          path-to-profile: coverage.out
+          parallel: true
