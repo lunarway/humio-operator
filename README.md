@@ -2,6 +2,7 @@
 
 [![Build Status](https://github.com/humio/humio-operator/workflows/CI/badge.svg)](https://github.com/humio/humio-operator/actions?query=workflow%3ACI)
 [![Go Report Card](https://goreportcard.com/badge/github.com/humio/humio-operator)](https://goreportcard.com/report/github.com/humio/humio-operator)
+[![Coverage Status](https://coveralls.io/repos/github/humio/humio-operator/badge.svg?branch=jestin/coverage)](https://coveralls.io/github/humio/humio-operator?branch=jestin/coverage)
 
 
 **WARNING: The CRD/API has yet to be defined. Everything as of this moment is considered experimental.**
@@ -86,7 +87,7 @@ Note that for running zookeeper and kafka locally, we currently rely on the [cp-
 To run a local cluster using kind, execute:
 
 ```bash
-./hack/restart-k8s.sh 
+./hack/restart-k8s.sh
 ```
 
 Once the cluster is up, run the operator by executing:
