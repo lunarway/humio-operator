@@ -47,8 +47,10 @@ make manifests
 
 # Build and pre-load the image into the cluster
 make docker-build-operator IMG=$operator_image
+make docker-build-helper IMG=humio/humio-operator-helper:dev
 
 kind load docker-image $operator_image
+kind load docker-image humio/humio-operator-helper:dev
 
 $kubectl create namespace $operator_namespace
 

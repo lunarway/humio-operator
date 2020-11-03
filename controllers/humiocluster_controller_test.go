@@ -104,7 +104,7 @@ var _ = Describe("HumioCluster Controller", func() {
 				Namespace: "default",
 			}
 			toCreate := constructBasicSingleNodeHumioCluster(key)
-			toCreate.Spec.Image = "humio/humio-core:1.14.5"
+			toCreate.Spec.Image = "humio/humio-core:1.16.2"
 			toCreate.Spec.NodeCount = helpers.IntPtr(2)
 
 			By("Creating the cluster successfully")

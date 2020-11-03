@@ -29,7 +29,7 @@ import (
 )
 
 const (
-	image                        = "humio/humio-core:1.16.1"
+	image                        = "humio/humio-core:1.17.0--SNAPSHOT--build-341661685--SHA-e29251d34aa5ae50466fa6bb7caf2b259fec2c35"
 	targetReplicationFactor      = 2
 	storagePartitionsCount       = 24
 	digestPartitionsCount        = 24

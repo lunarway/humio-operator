@@ -20,6 +20,11 @@ kind load docker-image --name kind $DEFAULT_IMAGE
 docker pull $PRE_UPDATE_IMAGE
 kind load docker-image --name kind $PRE_UPDATE_IMAGE
 
+# Build and preload image for helper containers
+# TODO: Remove this once we use a new image tag with the fixes required
+make docker-build-helper IMG=humio-operator-helper:dev
+kind load docker-image humio/humio-operator-helper:dev
+
 $kubectl apply -k config/crd/
 $kubectl label node --overwrite --all topology.kubernetes.io/zone=az1
 

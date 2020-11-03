@@ -137,7 +137,7 @@ func constructPod(hc *humiov1alpha1.HumioCluster, humioNodeName string, attachme
 		productVersion = imageSplit[1]
 	}
 	userID := int64(65534)
-	helperImageTag := "humio/humio-operator-helper:0.1.0"
+	helperImageTag := "humio/humio-operator-helper:dev"
 
 	pod = corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{

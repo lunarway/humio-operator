@@ -62,8 +62,18 @@ func createNewAdminUser(client *humio.Client) error {
 	return err
 }
 
-// getApiTokenForUserID returns the API token for the given user ID by extracting it from the global snapshot
-func getApiTokenForUserID(snapShotFile, userID string) (string, error) {
+// getApiTokenForUserID returns the API token for the given user ID
+func getApiTokenForUserID(client *humio.Client, snapShotFile, userID string) (string, error) {
+	// Try using the API to rotate and get the API token
+	token, err := client.Users().RotateUserApiTokenAndGet(userID)
+	if err == nil {
+		// If API works, return the token
+		fmt.Printf("got api token using api\n")
+		return token, nil
+	}
+
+	// If we had issues using the API for extracting the API token we can grab it from global snapshot file
+	// TODO: Clean up use of global snapshot file once we only support Humio versions with API support.
 	op, err := jq.Parse(fmt.Sprintf(".users.%s.entity.apiToken", userID))
 	if err != nil {
 		return "", err
@@ -73,6 +83,7 @@ func getApiTokenForUserID(snapShotFile, userID string) (string, error) {
 	data, _ := op.Apply([]byte(snapShotFileContent))
 	apiToken := strings.ReplaceAll(string(data), "\"", "")
 	if string(data) != "" {
+		fmt.Printf("got api token using global snapshot file\n")
 		return apiToken, nil
 	}
 
@@ -374,7 +385,7 @@ func authMode() {
 		}
 
 		// Get API token for user ID of admin account
-		apiToken, err := getApiTokenForUserID(globalSnapshotFile, userID)
+		apiToken, err := getApiTokenForUserID(humioClient, globalSnapshotFile, userID)
 		if err != nil {
 			fmt.Printf("got err trying to obtain api token of admin user: %s\n", err)
 			time.Sleep(5 * time.Second)
